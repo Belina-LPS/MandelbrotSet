@@ -9,10 +9,10 @@ ComplexPlane::ComplexPlane(int pixelWidth, int pixelHeight) {
     m_plane_center = {0, 0};
     m_plane_size = {BASE_WIDTH, BASE_HEIGHT*m_aspectRatio};
     m_zoomCount = 0;
-    m_State = State::CALCULATING;
+    m_state = State::CALCULATING;
 
-    // init vertexarray
-    // ...
+    m_vArray.setPrimitiveType(Points);
+    m_vArray.resize(pixelWidth * pixelHeight);
 }
 
 void ComplexPlane::draw(RenderTarget& target, RenderStates states) const {
@@ -20,7 +20,7 @@ void ComplexPlane::draw(RenderTarget& target, RenderStates states) const {
 }
 
 void ComplexPlane::UpdateRender() {
-    if (m_State == CALCULATING) {
+    if (m_state == CALCULATING) {
         for (int =0; i< //yval; i++) {
             for (int j=0; j<//xval; j++) {
                 vArray[j+i*pixelWidth].position = {(float)j, (float)i};
@@ -36,25 +36,27 @@ void ComplexPlane::UpdateRender() {
 }
 
 void ComplexPlane::zoomIn() {
-    m_ZoomCount++;
-    int xSize = BASE_WIDTH * pow(BASE_ZOOM, m_ZoomCount);
-    int ySize = BASE_HEIGHT * m_aspectRatio * pow(BASE_ZOOM, m_ZoomCount);
-    m_plane_size = //...,this. somehow
-    m_State = CALCULATING;
+    m_zoomCount++;
+    int xSize = BASE_WIDTH * pow(BASE_ZOOM, m_zoomCount);
+    int ySize = BASE_HEIGHT * m_aspectRatio * pow(BASE_ZOOM, m_zoomCount);
+    m_plane_size.x = xSize;
+    m_plane_size.y = ySize;
+    m_state = CALCULATING;
 }
 
 void ComplexPlane::zoomOut() {
-    m_ZoomCount--;
-    int xSize = BASE_WIDTH * pow(BASE_ZOOM, m_ZoomCount);
-    int ySize = BASE_HEIGHT * m_aspectRatio * pow(BASE_ZOOM, m_ZoomCount);
-    m_plane_size = //this
-    m_State = CALCULATING;
+    m_zoomCount--;
+    int xSize = BASE_WIDTH * pow(BASE_ZOOM, m_zoomCount);
+    int ySize = BASE_HEIGHT * m_aspectRatio * pow(BASE_ZOOM, m_zoomCount);
+    m_plane_size.x = xSize;
+    m_plane_size.y = ySize;
+    m_state = CALCULATING;
 }
 
 void ComplexPlane::setCenter(Vector2i mousePixel) {
     //mapToCoords...
     m_plane_center = //that
-    m_State = CALCULATING;
+    m_state = CALCULATING;
 }
 
 void ComplexPlane::setMouseLocation(Vector2i mousePixel) {
