@@ -1,4 +1,6 @@
 #include "ComplexPlane.h"
+#include <iostream>
+using namespace std;
 
 ComplexPlane::ComplexPlane(int pixelWidth, int pixelHeight) {
     m_pixel_size.x = pixelWidth;
@@ -20,23 +22,33 @@ void ComplexPlane::draw(RenderTarget& target, RenderStates states) const {
 }
 
 void ComplexPlane::updateRender() {
+    //cout << "DEBUG: in updateRender" << endl;
     if (m_state == State::CALCULATING) {
+        //cout << "DEBUG: UR: calculating" << endl;
         for (int i=0; i< VideoMode::getDesktopMode().height; i++) {
+            cout << "DEBUG: UR: i = " << i << endl;
             for (int j=0; j< VideoMode::getDesktopMode().width; j++) {
                 m_vArray[j+i*m_pixel_size.x].position = {(float)j, (float)i};
+                //cout << "DEBUG: UR: vArray constructed" << endl;
 
                 //mapPixelToCoords...
                 Vector2i testI = {j, i};
                 Vector2f testF;
+                //cout << "DEBUG: UR: Vectors constructed" << endl;
+
                 testF = mapPixelToCoords(testI);
 
                 //countIterations..
                 Uint8 r, g, b;
+                size_t iters = countIterations(testF);
                 ///iterationsToRGB...
+                iterationsToRGB(iters, r, g, b);
+
 
                 m_vArray[j+i*m_pixel_size.x].color = {r, g, b};
             }
         }
+        cout << "DEBUG: UR: made it out of loop!" << endl;
         m_state = State::DISPLAYING;
     }
 }
@@ -132,6 +144,7 @@ Vector2f ComplexPlane::mapPixelToCoords(Vector2i mousePixel) {
     // ((n  - a) / (b - a)) * (d - c) + c
     // sooooo
     // ughhhhh
+    //cout << "DEBUG: In mapPixel" << endl;
     float debugX, debugY;
     // need to figure out how to get width and height of the screen
     debugX = ((mousePixel.x - 0) / (VideoMode::getDesktopMode().width - 0)) * (m_plane_size.x) +
@@ -139,5 +152,6 @@ Vector2f ComplexPlane::mapPixelToCoords(Vector2i mousePixel) {
     debugY = ((mousePixel.y - 0) / (VideoMode::getDesktopMode().height - 0)) * (m_plane_size.y) +
              (m_plane_center.y - m_plane_size.y / 2.0);
     Vector2f ret = {debugX, debugY};
+    //cout << "DEBUG: mapPixel ending" << endl;
     return ret;
 }
