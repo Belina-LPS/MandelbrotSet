@@ -77,8 +77,12 @@ void ComplexPlane::zoomOut() {
 void ComplexPlane::setCenter(Vector2i mousePixel) {
     //mapToCoords...
     Vector2f test = mapPixelToCoords(mousePixel);
+    cout << "DEBUG: SC..." << endl;
+    cout << "   Input: (" << mousePixel.x << ", " << mousePixel.y << ")" << endl;
+    cout << "   Coord: (" << test.x << ", " << test.y << ")" << endl;
 
     m_plane_center = test;
+    cout << "  Center: (" << m_plane_center.x << ", " << m_plane_center.y << ")" << endl;
     m_state = State::CALCULATING;
 }
 
@@ -107,14 +111,30 @@ void ComplexPlane::loadText(Text& text) {
 
 size_t ComplexPlane::countIterations(Vector2f coord) {
     // uhh
-    //z(i+1) = z(i)^2 + c; z(0) = 0
+    //z(i+1) = z(i)^2 + c; z(0) = 0 mandelbrot
+
     std::complex<float> c(coord.x, coord.y);
-    std::complex<float> z = c;
-    int i = 0;
+    std::complex<float> z = 0;
+    int i=0;
+
+    // mandelbrot
+    
     while (std::norm(z) < 4.0 && i < MAX_ITER) {
         z = z*z + c;
         i++;
     }
+    
+
+    // burning ship
+    /*
+    c = -c;
+    while (std::norm(z) < 4.0 && i < MAX_ITER) {
+        std::complex<float> more(abs(z.real()), abs(z.imag()));
+        z = more*more + c;
+        i++;
+    }
+    */
+
     return i;
 }
 

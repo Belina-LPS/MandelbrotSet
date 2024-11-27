@@ -38,19 +38,23 @@ int main()
                 if (event.mouseButton.button == sf::Mouse::Right)
                 {
                     //Zoom Out
-                    mandelbrot.zoomOut();
+                    //mandelbrot.zoomOut();
                     //setCenter
                     Vector2i zO = {event.mouseButton.x, event.mouseButton.y};
+                    cout << "DEBUG: zo (" << zO.x << ", " << zO.y << ")" << endl;
                     mandelbrot.setCenter(zO);
+                    mandelbrot.zoomOut();
                 }
 
                 if (event.mouseButton.button == sf::Mouse::Left)
                 {
                     //Zoom In
-                    mandelbrot.zoomIn();
+                    //mandelbrot.zoomIn();
                     //setCenter
                     Vector2i zI = {event.mouseButton.x, event.mouseButton.y};
+                    cout << "DEBUG: zi (" << zI.x << ", " << zI.y << ")" << endl;
                     mandelbrot.setCenter(zI);
+                    mandelbrot.zoomIn();
                 }
             }
 
