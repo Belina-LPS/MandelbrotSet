@@ -125,6 +125,7 @@ size_t ComplexPlane::countIterations(Vector2f coord) {
     }
     
     
+    
 
     // burning ship
     /*
@@ -135,6 +136,19 @@ size_t ComplexPlane::countIterations(Vector2f coord) {
         i++;
     }
     */
+
+    // messing around
+    /*
+    z = 0;
+    while (std::norm(z) < 4.0 && i < MAX_ITER) {
+        //std::complex<float> ma(z.real()+abs(z.imag()), z.imag());
+        std::complex<float> ma(z.real()*z.real(), z.imag()*z.imag());
+        std::complex<float> one(1.0, 0.0);
+        z = z*z*z / (one+ma) + c;
+        i++;
+    }
+    */
+
 
     return i;
 }
