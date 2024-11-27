@@ -1,4 +1,5 @@
 #include "ComplexPlane.h"
+#include <iostream> // debug
 
 using namespace std;
 
@@ -8,7 +9,7 @@ int main()
     VideoMode vm(VideoMode::getDesktopMode().width, VideoMode::getDesktopMode().height);
 
     RenderWindow window(vm, "Mandelbrot!", Style::Default);
-    ComplexPlane(VideoMode::getDesktopMode().width, VideoMode::getDesktopMode().height);
+    ComplexPlane mandelbrot(VideoMode::getDesktopMode().width, VideoMode::getDesktopMode().height);
 
     sf::Font font;
     sf::Text text;
@@ -16,10 +17,9 @@ int main()
     if (!font.loadFromFile("Comic Sans MS.ttf"))
         throw runtime_error("Could not find font");
 
-    text.setString("Test");
     text.setCharacterSize(24);
     text.setFillColor(sf::Color::White);
-    text.setStyle(::sf::Text::Bold);
+    text.setStyle(sf::Text::Bold);
 
 
 
@@ -38,19 +38,28 @@ int main()
                 if (event.mouseButton.button == sf::Mouse::Right)
                 {
                     //Zoom Out
+                    mandelbrot.zoomOut();
                     //setCenter
+                    Vector2i zO = {event.mouseButton.x, event.mouseButton.y};
+                    mandelbrot.setCenter(zO);
                 }
 
                 if (event.mouseButton.button == sf::Mouse::Left)
                 {
                     //Zoom In
+                    mandelbrot.zoomIn();
                     //setCenter
+                    Vector2i zI = {event.mouseButton.x, event.mouseButton.y};
+                    mandelbrot.setCenter(zI);
                 }
             }
 
             if (event.type == sf::Event::MouseMoved)
             {
                 //setMouseLocation
+                Vector2i mm = {sf::Mouse::getPosition(window).x, sf::Mouse::getPosition(window).y};
+                //std::cout << "DEBUG: MM: (" << mm.x << ", " << mm.y << ")" << endl;
+                mandelbrot.setMouseLocation(mm);
             }
         }
 
@@ -62,12 +71,19 @@ int main()
         //Update Scene
             //UpdateRender
             //LoadText
+        mandelbrot.updateRender();
+        mandelbrot.loadText(text);
 
         //Draw
             //Clear RenderWindow
             //ComplexPlane
             //Text
             //Display RenderWindow
+        window.clear();
+        //window.draw(mandelbrot);
+        mandelbrot.draw(window, sf::RenderStates::Default);
+        window.draw(text);
+        window.display(); // ?
     }
     return 0;
 }

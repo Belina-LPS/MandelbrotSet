@@ -6,7 +6,7 @@
 
 using namespace sf;
 
-const unsigned int MAX_ITER = 3;    // NOTE THIS
+const unsigned int MAX_ITER = 64;    // NOTE THIS
 const float BASE_WIDTH = 4.0;
 const float BASE_HEIGHT = 4.0;
 const float BASE_ZOOM = 0.5;
