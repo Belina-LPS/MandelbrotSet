@@ -51,7 +51,7 @@ void ComplexPlane::updateRender() {
                 m_vArray[j+i*m_pixel_size.x].color = {r, g, b};
             }
         }
-        cout << "DEBUG: UR: made it out of loop!" << endl;
+        //cout << "DEBUG: UR: made it out of loop!" << endl;
         m_state = State::DISPLAYING;
     }
 }
@@ -77,12 +77,12 @@ void ComplexPlane::zoomOut() {
 void ComplexPlane::setCenter(Vector2i mousePixel) {
     //mapToCoords...
     Vector2f test = mapPixelToCoords(mousePixel);
-    cout << "DEBUG: SC..." << endl;
-    cout << "   Input: (" << mousePixel.x << ", " << mousePixel.y << ")" << endl;
-    cout << "   Coord: (" << test.x << ", " << test.y << ")" << endl;
+    //cout << "DEBUG: SC..." << endl;
+    //cout << "   Input: (" << mousePixel.x << ", " << mousePixel.y << ")" << endl;
+    //cout << "   Coord: (" << test.x << ", " << test.y << ")" << endl;
 
     m_plane_center = test;
-    cout << "  Center: (" << m_plane_center.x << ", " << m_plane_center.y << ")" << endl;
+    //cout << "  Center: (" << m_plane_center.x << ", " << m_plane_center.y << ")" << endl;
     m_state = State::CALCULATING;
 }
 
@@ -124,6 +124,7 @@ size_t ComplexPlane::countIterations(Vector2f coord) {
         i++;
     }
     
+    
 
     // burning ship
     /*
@@ -140,27 +141,30 @@ size_t ComplexPlane::countIterations(Vector2f coord) {
 
 void ComplexPlane::iterationsToRGB(size_t count, Uint8& r, Uint8& g, Uint8& b) {
     // oough.
-    int range = MAX_ITER/5;
+    int range = MAX_ITER/11;
+    // out -> in
     if (count < range) {
-        r = 75;
-        g = 75;
-        b = 165;
+        r = 0;      g = 34;     b = 150;
     } else if (count < 2*range) {
-        r = 154;
-        g = 92;
-        b = 175;
+        r = 44;     g = 23;     b = 148;
     } else if (count < 3*range) {
-        r = 224;
-        g = 118;
-        b = 158;
+        r = 86;     g = 11;     b = 146;
     } else if (count < 4*range) {
-        r = 250;
-        g = 190;
-        b = 140;
+        r = 129;    g = 0;      b = 144;
+    } else if (count < 5*range) {
+        r = 192;    g = 0;      b = 122;
+    } else if (count < 6*range) {
+        r = 234;    g = 12;     b = 95;
+    } else if (count < 7*range) {
+        r = 244;    g = 48;     b = 80;
+    } else if (count < 8*range) {
+        r = 254;    g = 83;     b = 65;
+    } else if (count < 9*range) {
+        r = 255;    g = 110;    b = 49;
+    } else if (count < 10*range) {
+        r = 255;    g = 136;    b = 32;
     } else {
-        r = 252;
-        g = 255;
-        b = 148;
+        r = 251;    g = 161;    b = 17;
     }
 }
 

@@ -1,4 +1,5 @@
 #include "ComplexPlane.h"
+#include <SFML/Audio.hpp>
 #include <iostream> // debug
 
 using namespace std;
@@ -21,6 +22,11 @@ int main()
     text.setFillColor(sf::Color::White);
     text.setStyle(sf::Text::Bold);
 
+    sf::Music loading;
+    if (!loading.openFromFile("loading.ogg"))
+        throw runtime_error("Could not find audio");
+    loading.setLoop(true);
+
 
 
     while (window.isOpen())
@@ -41,7 +47,7 @@ int main()
                     //mandelbrot.zoomOut();
                     //setCenter
                     Vector2i zO = {event.mouseButton.x, event.mouseButton.y};
-                    cout << "DEBUG: zo (" << zO.x << ", " << zO.y << ")" << endl;
+                    //cout << "DEBUG: zo (" << zO.x << ", " << zO.y << ")" << endl;
                     mandelbrot.setCenter(zO);
                     mandelbrot.zoomOut();
                 }
@@ -52,7 +58,7 @@ int main()
                     //mandelbrot.zoomIn();
                     //setCenter
                     Vector2i zI = {event.mouseButton.x, event.mouseButton.y};
-                    cout << "DEBUG: zi (" << zI.x << ", " << zI.y << ")" << endl;
+                    //cout << "DEBUG: zi (" << zI.x << ", " << zI.y << ")" << endl;
                     mandelbrot.setCenter(zI);
                     mandelbrot.zoomIn();
                 }
@@ -75,8 +81,10 @@ int main()
         //Update Scene
             //UpdateRender
             //LoadText
+        loading.play();
         mandelbrot.updateRender();
         mandelbrot.loadText(text);
+        loading.pause();
 
         //Draw
             //Clear RenderWindow
